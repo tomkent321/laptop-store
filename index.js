@@ -3,9 +3,6 @@ const fs = require('fs'); // file system
 const http = require('http'); // web server
 const url = require('url');
 const store = require('./data/data.json');
-// const json = fs.readFileSync(`${__dirname}/data/data.json`, 'utf-8');
-// const laptopData = JSON.parse(json);
-// console.log('laptop: ', laptopData);
 
 const server = http.createServer((req, res) => {
   const pathName = url.parse(req.url, true).pathname; //note case of object property!
@@ -28,10 +25,10 @@ const server = http.createServer((req, res) => {
           res.end(overviewOutput);
         });
       });
-
       break;
+
+    // LAPTOP DETAIL
     case '/laptop':
-      // LAPTOP DETAIL
       if (id < store.length) {
         let queryString = `${__dirname}/templates/template-laptop.html`;
         fs.readFile(queryString, 'utf-8', (err, data) => {
@@ -58,12 +55,8 @@ const server = http.createServer((req, res) => {
         res.writeHead(400, { 'Content-type': 'text/html' });
         res.end('Page not found');
       }
-
       break;
   }
-
-  // console.log('req.url: ', req.url);
-  // console.log('pathName: ', pathName);
 });
 
 const port = 1337;
@@ -71,7 +64,7 @@ server.listen(port, '127.0.0.1', () => {
   console.log('now listening on port: ', port);
 });
 
-// uses a regular expression in the replace to allow multiple replacements of the same placeholder. Otherwise would only replace the first (there are 2 price fields in this template)
+// uses a regular expression in the replace to allow multiple replacements of the same placeholder. Basic replace only replaces the first instance
 function replaceTemplate(originalHtml, storeD) {
   let output = originalHtml.replace(/{%PRODUCTNAME%}/g, storeD.productName);
   output = output.replace(/{%IMAGE%}/g, storeD.image);
