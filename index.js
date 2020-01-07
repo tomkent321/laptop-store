@@ -45,7 +45,6 @@ const server = http.createServer((req, res) => {
     // URL NOT FOUND or is an image
     default:
       if (/\.(jpg|jpeg|png|gif)$/i.test(pathName)) {
-        // console.log('pathName: ', pathName);
         fs.readFile(`${__dirname}/data/img${pathName}`, (err, data) => {
           if (err) throw err;
           res.writeHead(200, { 'Content-type': 'img/jpg' });
